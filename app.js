@@ -5,9 +5,9 @@ var http = require("http");
 var io = require('socket.io');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
-const defualt_config = require('./config/default.json');
+const defualt_config = require('../config/default.json');
 
-var roomRepo = require("./models/roomRepo");
+var roomRepo = require("../models/roomRepo");
 
 //Server Config
 const app = express();
@@ -27,8 +27,8 @@ app.set('view engine', 'ejs');
 app.engine('ejs', require('ejs-locals'));
 
 //Controllers
-var usersRouter = require("./routes/users");
-var roomsRouter = require(".//routes/rooms");
+var usersRouter = require("../routes/users");
+var roomsRouter = require("../routes/rooms");
 
 app.get("/", (req, res) => {
     res.render('index', {title: defualt_config.server.name + " Landing"})
