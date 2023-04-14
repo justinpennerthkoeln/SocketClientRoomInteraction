@@ -5,11 +5,11 @@
     },
 
     "postgres": {
-        "port": 60969,
-        "host": "0.0.0.0",
-        "user" : "postgres",
-        "password": "root",
-        "database": "postgres"
+        "port": 5432,
+        "host": "dpg-cgsq7g64dad33kb2psm0-a",
+        "user" : "admin",
+        "password": "1EvjNignzf5Tbax8jrOpyyjkG2Qfcgmq",
+        "database": "newsockettest"
     },
     "express_session": {
         "secret":"1245"
