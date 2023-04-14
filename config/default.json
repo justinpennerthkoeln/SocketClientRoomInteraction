@@ -1,0 +1,17 @@
+{
+    "server": {
+        "port": 3000,
+        "name": "Firm Name"
+    },
+
+    "postgres": {
+        "port": 60969,
+        "host": "0.0.0.0",
+        "user" : "postgres",
+        "password": "root",
+        "database": "postgres"
+    },
+    "express_session": {
+        "secret":"1245"
+    }
+}

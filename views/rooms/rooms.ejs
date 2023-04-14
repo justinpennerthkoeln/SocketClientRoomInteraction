@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <script type="importmap">
+        {
+          "imports": {
+            "socket.io-client": "https://cdn.socket.io/4.4.1/socket.io.esm.min.js"
+          }
+        }
+    </script>
+    <script type="module">
+        import { io } from "socket.io-client";
+        const socket = io("ws://localhost:3000");
+
+        document.querySelectorAll('.submit_room')[0].addEventListener('click', () => {
+          var room_name = document.querySelectorAll('.input_room')[0].value;
+          socket.emit('create-room', (room_name));
+        });
+
+        socket.on('created-room', async (room) => {
+            document.querySelectorAll('.rooms')[0].innerHTML += `<a href='/rooms/${await room.id}'> ${await room.room_name} </a><br>`;
+        });
+    </script>
+</head>
+<body>
+    <h1>Hello <%=user.username %></h1>
+    <h2>Rooms</h2>
+    <div class="rooms">
+      <% rooms.forEach(room => {
+        %> <a href="/rooms/<%=room.id%>"><%= room.room_name %> </a> <br><%
+      }); %>
+    </div><hr>
+    <h2>Hinzufügen</h2>
+    <div>
+      <input type="text" name="room" id="room" class="input_room">
+      <button class="submit_room">Hinzufügen</button>
+    </div>
+</body>
+</html>

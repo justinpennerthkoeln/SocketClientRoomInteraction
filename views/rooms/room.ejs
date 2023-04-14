@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <script type="importmap">
+        {
+          "imports": {
+            "socket.io-client": "https://cdn.socket.io/4.4.1/socket.io.esm.min.js"
+          }
+        }
+    </script>
+    <script type="module">
+        import { io } from "socket.io-client";
+        const socket = io("ws://localhost:3000");
+
+        //set room
+        socket.emit('leave-room');
+        socket.emit('join-room', (document.querySelectorAll('#room_id_value')[0].value), document.querySelectorAll('#room_name_value')[0].value);
+
+        socket.on('message', (init_message) => {
+            document.querySelectorAll('.messages')[0].innerHTML += '<p class="message">' + `  ${init_message.user_name} ~|> `  + init_message.message + '</p>';
+        });
+
+        document.querySelectorAll('.button_send_message')[0].addEventListener('click', () => {
+            var message = document.querySelectorAll('.message_input')[0].value;
+            var room_id = document.querySelectorAll('#room_id_value')[0].value;
+            var user_name = document.querySelectorAll('#user_name_value')[0].value;
+            var init_message = {
+                "message":message,
+                "user_name":user_name,
+                "room_id":room_id
+            };
+            socket.emit('message', (init_message));
+        });
+    </script>
+</head>
+<body>
+    <style>
+        h1 {
+            text-align: center;
+        }
+        h2 {
+            text-align: center;
+        }
+        .navigation button{
+            height: 27px;
+            width: 120px;
+            border: none;
+            border-radius: 5px;
+            background-color:#f19c5a;
+            color:white;
+        }
+
+        .message_send {
+            padding-top: 100px;
+        }
+
+        .message_input {
+            height: 20px;
+            width: 238px;
+            border-width: 1px;
+            border-radius: 0px;
+        }
+
+        .message {
+            height: 20px;
+            width: 200px;
+            background-color: #248fb9;
+            color: white;
+            border-radius: 5px;
+            margin-top: -5px;
+        }
+
+        .messages {
+            height: 400px;
+            width: auto;
+            margin-top:10px;
+        }
+
+    </style>
+    <div class="navigation">
+        <h1>Room <%= room.room_name%></h1>
+        <h2>loged in as: <%= user.username%></h2>
+
+        <!-- Room Variables -->
+        <div>
+            <input type="hidden" id="room_id_value" value="<%=room.id%>">
+            <input type="hidden" id="room_name_value" value="<%=room.room_name%>">
+            <input type="hidden" id="room_password_value" value="<%=room.password%>">
+        </div>
+
+        <!-- User Variables -->
+        <div>
+            <input type="hidden" id="user_id_value" value="<%=user.id%>">
+            <input type="hidden" id="user_name_value" value="<%=user.username%>">
+            <input type="hidden" id="user_password_value" value="<%=user.password%>">
+        </div>
+
+        <button class="button_leave">Leave</button>
+        <input type="text" name="text" class="message_input">
+        <button class="button_send_message">Send Message!</button>
+    </div>
+    <section class="messages">
+
+    </section>
+</body>
+</html>
