@@ -15,7 +15,7 @@
     </script>
     <script type="module">
         import { io } from "socket.io-client";
-        const socket = io("wss://socketclientroominteraction.onrender.com:3000", {
+        const socket = io("wss://socketclientroominteraction.onrender.com", {
           "force new connection": true,
           reconnectionAttempts: "Infinity",
           timeout: 10000,
